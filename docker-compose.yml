@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: computerstore_user
+      POSTGRES_DB: computerstore
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      PROD: true
+      DEBUG: true
+      DB_PASSWORD: admin
+      DB_HOST: postgres
+      DB_PORT: 5432
