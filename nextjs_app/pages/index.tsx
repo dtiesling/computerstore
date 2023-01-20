@@ -25,7 +25,9 @@ export default function Home() {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small"><Link href="computerstore">START SHOPPING</Link></Button>
+            <Button size="small">
+              <Link href="computerstore">START SHOPPING</Link>
+            </Button>
           </CardActions>
         </Card>
       </Container>

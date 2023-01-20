@@ -74,8 +74,7 @@ function SearchResults({computers}: SearchResultsProps) {
         <ImageListItem key={computer.id} className={styles["computer-list-item"]}>
           <img
             className={styles["computer-image"]}
-            src={`${computer.imageUrl}`}
-            srcSet={`${computer.imageUrl}`}
+            src={computer.imageUrl}
             loading="lazy"
           />
           <ImageListItemBar

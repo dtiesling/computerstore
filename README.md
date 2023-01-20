@@ -12,23 +12,23 @@ would be too inefficient and these services would need to be split up.
 I chose Next.js for the frontend because the application is an e-commerce site and the pre-rendering would be a boon for 
 SEO. It also seemed like a great excuse for me to learn Next.js. I did not get far enough in the docs to dig into the 
 pre-rendering side, so I can assume I am not using it to its full potential. Overall I enjoyed working with Next.js and it 
-was able to deliver on the spec, so I'm happy. You'll notice there is an extra page when you hit the 
+was able to deliver on the spec, so I'm happy. 
 
 The data loading portion is easy to miss. I opted for a [data migration](./django_app/computers/migrations/0003_add_base_inventory.py) 
-in Django instead of a script to load the data. This purely to ease development and testing since it gave me a fully loaded
+in Django instead of a script to load the data. This was purely to ease development and testing since it gave me a fully loaded
 DB each time I ran the migrations.
 
 
 ## Deployment Infrastructure
-- Web application is deployed in Elastic Container Service (ECS) as a Fargate service.
+- Web application is deployed in Elastic Container Service (ECS) as a Fargate service. Using Fargate spot instances for cost savings.
 - Web application containers run in ECS are stored in the Elastic Container Registry (ECR).
 - PostgreSQL database is hosted in RDS
 - DNS is managed in Route 53 and sends requests from clients to an Application Load Balancer that routes to a healthy instance of the web application in ECS.
 - All resources are managed using Terraform.
 
 ## Improvements to make before going to production
-As I was working on this example I had to make most decisions in respect to time. Below is the list of the ideal
-list of changes I would make before going into production. In the real world it's unlikely doing all of this would be 
+As I was working on this example I had to make most decisions in respect to time. Below is the list of changes I'd 
+prefer to make before going into production. In the real world it's unlikely doing all of this would be 
 possible, at least not in the first iteration. This is also not an exhaustive list of things that could be improved but 
 those that came to mind while working on this.
 
@@ -42,15 +42,16 @@ those that came to mind while working on this.
 - Store terraform state remotely in S3 or terraform cloud.
 - Tune database parameters
 - Provision elasticsearch instance and sync data. Use to drive search bar.
-- Store/retrieve DB passwords Secrets Manager instead of env vars in task definitions
+- Store/retrieve DB passwords in Secrets Manager instead of env vars in task definitions
 - Add layers in front of Application Load Balancer for performance and security (CDN, WAF, DDoS Protection, etc.). I'm a fan of Cloudflare but AWS has all the equivalent tooling.
 - SIEM (i.e. Splunk or DataDog)
-- Error monitoring (i.e. Sentry or similar)
+- Error monitoring (i.e. Sentry)
 - Overall Monitoring/Observability tools (i.e. Datadog or AWS equivalent toolset)
 - Add failover support for RDS database. Currently only a single instance is provisioned.
-- Depending on user base may need to start looking at having infrastructure in multiple regions/continents.
+- Depending on user base may need to provision resources in multiple regions/continents.
 - Make sure all services are HA.
 - Enable backups on RDS database and test disaster recovery process.
+- Potentially move off Fargate Spot instances depending on scaling requirements.
 
 ### Code
 - Security pass on the frontend code. There are some high severity vulnerabilities in dependencies.
@@ -59,12 +60,13 @@ those that came to mind while working on this.
 - Vendor should be its own table and Computer should foreign key to it.
 - Backend logging (general info logs as needed and audit logging for security/compliance).
 - Type-hinting in Python.
-- Convert frontend code to Typescript.
 - Documentation (code, quick start instructions and local dev environment setup)
 - Make frontend responsive.
 - May need to address when database migrations are done once we scale to multiple instances since they are run on server start.
 - Frontend error handling.
 - Reduce docker image bloat. Could be using build stages to remove unneeded files.
+- Secure the django secret key.
+- Fix a developer env issue where the REST API next urls are not using the correct hostname when run in docker compose.
 
 ### CI/CD
 - Implement git flow - deploy to dev, stage/QA and prod environments on commit to correlated branches.
@@ -74,3 +76,4 @@ those that came to mind while working on this.
 - Code test coverage limit checks before merging code.
 - Build and push containers to registry automatically.
 - Set up terraform cloud to test and deploy infrastructure changes on commit.
+- Add automated end-to-end testing (i.e. Cypress or Rainforest)

@@ -36,14 +36,16 @@ class TestSearchView:
     def test_lenovo(self, api_client, lenovo_computer, apple_computer):
         response = api_client.get(self.route, {'search_term': 'ideapa'})
         assert response.status_code == 200
-        assert response.json()['results'][0]['id'] == lenovo_computer.id
-        assert response.json()['count'] == 1
+        response_json = response.json()
+        assert response_json['results'][0]['id'] == lenovo_computer.id
+        assert response_json['count'] == 1
 
     def test_mac(self, api_client, lenovo_computer, apple_computer):
         response = api_client.get(self.route, {'search_term': 'apple'})
         assert response.status_code == 200
-        assert response.json()['results'][0]['id'] == apple_computer.id
-        assert response.json()['count'] == 1
+        response_json = response.json()
+        assert response_json['results'][0]['id'] == apple_computer.id
+        assert response_json['count'] == 1
 
     def test_all(self, api_client, lenovo_computer, apple_computer):
         response = api_client.get(self.route)
