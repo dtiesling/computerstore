@@ -159,3 +159,4 @@ if os.environ.get('LOCALDEV') == 'true':
     MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')
     CORS_ALLOW_ALL_ORIGINS = True
     ALLOWED_HOSTS = ['*']
+SESSION_COOKIE_SECURE = True
