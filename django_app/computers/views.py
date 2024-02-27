@@ -11,8 +11,7 @@ class SearchViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ComputerSerializer
 
     def get_queryset(self):
-        search_term = self.request.query_params.get('search_term')
-        if search_term:
+        if search_term := self.request.query_params.get('search_term'):
             return Computer.objects.filter(title__icontains=search_term).all()
         else:
             return Computer.objects.all()
