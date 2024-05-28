@@ -1,5 +1,5 @@
 # The Computer Store
-## View the live deployment [here](https://computerstore.danieltiesling.com/computerstore).
+## ~~View the live deployment [here](https://computerstore.danieltiesling.com/computerstore).~~
 
 ## Application Architecture
 The web application consists of a Next.js app for the frontend and a Django app for the REST API backend. Both
