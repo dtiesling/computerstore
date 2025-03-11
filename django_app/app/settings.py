@@ -84,7 +84,7 @@ if os.environ.get("PROD", "false") == "true":
         }
     }
 else:
-    DEBUG = True
+    DEBUG = False
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
